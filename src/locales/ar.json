@@ -1,0 +1,65 @@
+{
+    "nav": {
+        "home": "الرئيسية",
+        "drivers": "السائقون",
+        "teams": "الفرق",
+        "standings": "الترتيب",
+        "circuits": "الحلبات"
+    },
+    "home": {
+        "title": "أبيكس إف1",
+        "subtitle": "مركزك النهائي للفورمولا 1",
+        "welcome": "مرحباً بك في أسرع تجربة فورمولا 1",
+        "exploreDrivers": "استكشف السائقين",
+        "exploreTeams": "استكشف الفرق",
+        "viewStandings": "عرض الترتيب",
+        "discoverCircuits": "اكتشف الحلبات"
+    },
+    "drivers": {
+        "title": "السائقون",
+        "subtitle": "سائقو موسم 2024",
+        "number": "الرقم",
+        "team": "الفريق",
+        "points": "النقاط",
+        "nationality": "الجنسية",
+        "position": "المركز",
+        "wins": "الانتصارات",
+        "podiums": "منصات التتويج"
+    },
+    "teams": {
+        "title": "الفرق",
+        "subtitle": "فرق المصنعين",
+        "constructor": "المصنع",
+        "points": "النقاط",
+        "nationality": "الجنسية",
+        "championships": "البطولات",
+        "drivers": "السائقون"
+    },
+    "standings": {
+        "title": "الترتيب",
+        "subtitle": "ترتيب الموسم الحالي",
+        "driverStandings": "ترتيب السائقين",
+        "constructorStandings": "ترتيب المصنعين",
+        "position": "المركز",
+        "driver": "السائق",
+        "constructor": "المصنع",
+        "points": "النقاط",
+        "wins": "الانتصارات"
+    },
+    "circuits": {
+        "title": "الحلبات",
+        "subtitle": "حلبات سباق الفورمولا 1",
+        "location": "الموقع",
+        "country": "البلد",
+        "length": "الطول",
+        "laps": "اللفات"
+    },
+    "common": {
+        "loading": "جاري التحميل",
+        "error": "خطأ في تحميل البيانات",
+        "retry": "إعادة المحاولة",
+        "back": "رجوع",
+        "viewDetails": "عرض التفاصيل",
+        "noData": "لا توجد بيانات متاحة"
+    }
+}

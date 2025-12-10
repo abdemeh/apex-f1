@@ -1,0 +1,65 @@
+{
+    "nav": {
+        "home": "Home",
+        "drivers": "Drivers",
+        "teams": "Teams",
+        "standings": "Standings",
+        "circuits": "Circuits"
+    },
+    "home": {
+        "title": "APEX F1",
+        "subtitle": "Your Ultimate Formula 1 Hub",
+        "welcome": "Welcome to the fastest F1 experience",
+        "exploreDrivers": "Explore Drivers",
+        "exploreTeams": "Explore Teams",
+        "viewStandings": "View Standings",
+        "discoverCircuits": "Discover Circuits"
+    },
+    "drivers": {
+        "title": "Drivers",
+        "subtitle": "2024 Season Drivers",
+        "number": "Number",
+        "team": "Team",
+        "points": "Points",
+        "nationality": "Nationality",
+        "position": "Position",
+        "wins": "Wins",
+        "podiums": "Podiums"
+    },
+    "teams": {
+        "title": "Teams",
+        "subtitle": "Constructor Teams",
+        "constructor": "Constructor",
+        "points": "Points",
+        "nationality": "Nationality",
+        "championships": "Championships",
+        "drivers": "Drivers"
+    },
+    "standings": {
+        "title": "Standings",
+        "subtitle": "Current Season Rankings",
+        "driverStandings": "Driver Standings",
+        "constructorStandings": "Constructor Standings",
+        "position": "Pos",
+        "driver": "Driver",
+        "constructor": "Constructor",
+        "points": "Points",
+        "wins": "Wins"
+    },
+    "circuits": {
+        "title": "Circuits",
+        "subtitle": "Formula 1 Race Tracks",
+        "location": "Location",
+        "country": "Country",
+        "length": "Length",
+        "laps": "Laps"
+    },
+    "common": {
+        "loading": "Loading",
+        "error": "Error loading data",
+        "retry": "Retry",
+        "back": "Back",
+        "viewDetails": "View Details",
+        "noData": "No data available"
+    }
+}

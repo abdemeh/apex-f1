@@ -1,0 +1,65 @@
+{
+    "nav": {
+        "home": "Accueil",
+        "drivers": "Pilotes",
+        "teams": "Équipes",
+        "standings": "Classements",
+        "circuits": "Circuits"
+    },
+    "home": {
+        "title": "APEX F1",
+        "subtitle": "Votre Hub Ultime de Formule 1",
+        "welcome": "Bienvenue dans l'expérience F1 la plus rapide",
+        "exploreDrivers": "Explorer les Pilotes",
+        "exploreTeams": "Explorer les Équipes",
+        "viewStandings": "Voir les Classements",
+        "discoverCircuits": "Découvrir les Circuits"
+    },
+    "drivers": {
+        "title": "Pilotes",
+        "subtitle": "Pilotes de la Saison 2024",
+        "number": "Numéro",
+        "team": "Équipe",
+        "points": "Points",
+        "nationality": "Nationalité",
+        "position": "Position",
+        "wins": "Victoires",
+        "podiums": "Podiums"
+    },
+    "teams": {
+        "title": "Équipes",
+        "subtitle": "Équipes Constructeurs",
+        "constructor": "Constructeur",
+        "points": "Points",
+        "nationality": "Nationalité",
+        "championships": "Championnats",
+        "drivers": "Pilotes"
+    },
+    "standings": {
+        "title": "Classements",
+        "subtitle": "Classements de la Saison Actuelle",
+        "driverStandings": "Classement Pilotes",
+        "constructorStandings": "Classement Constructeurs",
+        "position": "Pos",
+        "driver": "Pilote",
+        "constructor": "Constructeur",
+        "points": "Points",
+        "wins": "Victoires"
+    },
+    "circuits": {
+        "title": "Circuits",
+        "subtitle": "Pistes de Course de Formule 1",
+        "location": "Localisation",
+        "country": "Pays",
+        "length": "Longueur",
+        "laps": "Tours"
+    },
+    "common": {
+        "loading": "Chargement",
+        "error": "Erreur de chargement des données",
+        "retry": "Réessayer",
+        "back": "Retour",
+        "viewDetails": "Voir les Détails",
+        "noData": "Aucune donnée disponible"
+    }
+}
