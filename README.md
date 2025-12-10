@@ -4,8 +4,6 @@
   <p><em>The F1 Dashboard for the Tifosi, the Orange Army, and everyone in between.</em></p>
 </div>
 
----
-
 # Live Preview
 
 **[Click here to see it live!](https://abdemeh.github.io/apex-f1/)**
