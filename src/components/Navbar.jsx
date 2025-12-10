@@ -12,8 +12,7 @@ const Navbar = () => {
 
     const languages = [
         { code: 'en', name: 'EN', dir: 'ltr' },
-        { code: 'fr', name: 'FR', dir: 'ltr' },
-        { code: 'ar', name: 'AR', dir: 'rtl' }
+        { code: 'fr', name: 'FR', dir: 'ltr' }
     ];
 
     const currentLang = languages.find(lang => lang.code === i18n.language) || languages[0];
