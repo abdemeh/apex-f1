@@ -6,6 +6,10 @@
 
 ---
 
+# Live Preview
+
+**[👉 Click here to see it live!](https://abdemeh.github.io/apex-f1/)**
+
 # Introduction & Inspiration
 
 Welcome to **Apex F1**. I built this project for one simple reason: **I love Formula 1.**
@@ -15,7 +19,7 @@ But let's be honest, I mostly built it because I am a huge **Max Verstappen** fa
 
 Every time I look at the standings, I want to see that #1 right at the top. So I created this dashboard to track the season, the drivers, and the teams in style. If you are a Hamilton fan, you are welcome too (but please don't look at the 2021 stats).
 
-For the full experience, please play the **[Netherlands Anthem](https://www.youtube.com/watch?v=mo6Ydw9x9dE&list=RDmo6Ydw9x9dE)** while browsing this repo.
+For the full experience, please play the <a href="https://www.youtube.com/watch?v=mo6Ydw9x9dE&list=RDmo6Ydw9x9dE" target="_blank">Netherlands Anthem</a> while browsing this repo.
 
 # The Project Explained
 
