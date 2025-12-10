@@ -1,23 +1,24 @@
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useState, useEffect } from 'react';
+import { getDriverImageFromOpenF1 } from '../services/f1Api';
 
 const DriverCard = ({ driver, standings }) => {
     const navigate = useNavigate();
     const { t } = useTranslation();
+    const [driverImageUrl, setDriverImageUrl] = useState(`https://via.placeholder.com/200x200/1A1A1A/E10600?text=${driver.code || 'F1'}`);
+
+    useEffect(() => {
+        const loadDriverImage = async () => {
+            const imageUrl = await getDriverImageFromOpenF1(driver.code, driver.permanentNumber);
+            setDriverImageUrl(imageUrl);
+        };
+        loadDriverImage();
+    }, [driver.code, driver.permanentNumber]);
 
     const handleClick = () => {
         navigate(`/drivers/${driver.driverId}`);
     };
-
-    // Get OpenF1 driver image (headshot PNG)
-    const getOpenF1Image = (driver) => {
-        // OpenF1 uses driver numbers for images
-        const driverNumber = driver.permanentNumber || '1';
-        return `https://api.openf1.org/v1/drivers?driver_number=${driverNumber}&session_key=latest`;
-    };
-
-    // Use a direct approach - construct image URL based on driver code
-    const driverImageUrl = `https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/${driver.code?.substring(0, 1)}/${driver.code}01_${driver.familyName}_${driver.givenName}/${driver.code}01.png.transform/2col/image.png`;
 
     // Get country code from nationality for flag SVG
     const getCountryCode = (nationality) => {
@@ -123,9 +124,10 @@ const DriverCard = ({ driver, standings }) => {
                 position: 'relative',
                 flex: 1,
                 display: 'flex',
-                alignItems: 'center',
+                alignItems: 'flex-end',
                 justifyContent: 'center',
-                padding: '3rem 1rem 1rem 1rem'
+                padding: '3rem 1rem 0 1rem',
+                overflow: 'hidden'
             }}>
                 {/* Large driver number (outlined) */}
                 <div style={{
@@ -137,7 +139,10 @@ const DriverCard = ({ driver, standings }) => {
                     opacity: 0.3,
                     lineHeight: 1,
                     userSelect: 'none',
-                    zIndex: 1
+                    zIndex: 1,
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)'
                 }}>
                     {driver.permanentNumber || '0'}
                 </div>
@@ -147,7 +152,7 @@ const DriverCard = ({ driver, standings }) => {
                     position: 'relative',
                     zIndex: 2,
                     width: '100%',
-                    height: '180px',
+                    height: '200px',
                     display: 'flex',
                     alignItems: 'flex-end',
                     justifyContent: 'center'
@@ -159,10 +164,12 @@ const DriverCard = ({ driver, standings }) => {
                             maxWidth: '100%',
                             maxHeight: '100%',
                             objectFit: 'contain',
-                            filter: 'drop-shadow(0 10px 20px rgba(0, 0, 0, 0.5))'
+                            filter: 'drop-shadow(0 10px 20px rgba(0, 0, 0, 0.5))',
+                            objectPosition: 'bottom'
                         }}
                         onError={(e) => {
-                            e.target.src = `https://via.placeholder.com/200x200/${teamColor.replace('#', '')}/ffffff?text=${driver.code || 'F1'}`;
+                            // Fallback to placeholder if image fails to load
+                            e.target.src = `https://via.placeholder.com/200x200/1A1A1A/E10600?text=${driver.code || driver.familyName.substring(0, 3).toUpperCase()}`;
                         }}
                     />
                 </div>

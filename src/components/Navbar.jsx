@@ -66,31 +66,31 @@ const Navbar = () => {
                         </li>
                     ))}
 
-                    <li>
+                    <li style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
                         <YearSelector />
-                    </li>
 
-                    <li className="language-switcher">
-                        <button
-                            className="language-button"
-                            onClick={() => setLangDropdownOpen(!langDropdownOpen)}
-                        >
-                            {currentLang.name}
-                        </button>
+                        <div className="language-switcher" style={{ position: 'relative' }}>
+                            <button
+                                className="language-button"
+                                onClick={() => setLangDropdownOpen(!langDropdownOpen)}
+                            >
+                                {currentLang.name}
+                            </button>
 
-                        {langDropdownOpen && (
-                            <div className="language-dropdown">
-                                {languages.map((lang) => (
-                                    <div
-                                        key={lang.code}
-                                        className={`language-option ${i18n.language === lang.code ? 'active' : ''}`}
-                                        onClick={() => changeLanguage(lang.code)}
-                                    >
-                                        {lang.name}
-                                    </div>
-                                ))}
-                            </div>
-                        )}
+                            {langDropdownOpen && (
+                                <div className="language-dropdown">
+                                    {languages.map((lang) => (
+                                        <button
+                                            key={lang.code}
+                                            onClick={() => changeLanguage(lang.code)}
+                                            className={currentLang.code === lang.code ? 'active' : ''}
+                                        >
+                                            {lang.name}
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
                     </li>
                 </ul>
             </div>

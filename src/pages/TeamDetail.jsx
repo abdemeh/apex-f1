@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useYear } from '../context/YearContext';
-import { getConstructorDetails } from '../services/f1Api';
+import { getConstructorDetails, getTeamLogoUrl } from '../services/f1Api';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 const TeamDetail = () => {
@@ -66,6 +66,19 @@ const TeamDetail = () => {
     };
 
     const teamColor = teamColors[constructor.constructorId] || 'var(--f1-red)';
+    const teamCarUrl = getTeamLogoUrl(constructor.constructorId, selectedYear);
+
+    // Get country code from nationality for flag SVG
+    const getCountryCode = (nationality) => {
+        const countryCodes = {
+            'British': 'gb', 'Austrian': 'at', 'Italian': 'it', 'German': 'de',
+            'French': 'fr', 'Swiss': 'ch', 'American': 'us', 'Indian': 'in',
+            'Japanese': 'jp', 'Malaysian': 'my', 'Spanish': 'es', 'Dutch': 'nl'
+        };
+        return countryCodes[nationality] || 'xx';
+    };
+
+    const countryCode = getCountryCode(constructor.nationality);
 
     return (
         <div className="page">
@@ -89,6 +102,7 @@ const TeamDetail = () => {
                         position: 'relative',
                         overflow: 'hidden'
                     }}>
+                        {/* Team color accent bar */}
                         <div style={{
                             position: 'absolute',
                             top: 0,
@@ -99,14 +113,57 @@ const TeamDetail = () => {
                             boxShadow: `0 0 20px ${teamColor}`
                         }} />
 
+                        {/* Car background image */}
+                        <div style={{
+                            position: 'absolute',
+                            left: '-150px',
+                            top: '50%',
+                            transform: 'translateY(-50%)',
+                            width: '700px',
+                            height: '300px',
+                            opacity: 1,
+                            zIndex: 2
+                        }}>
+                            <img
+                                src={teamCarUrl}
+                                alt={constructor.name}
+                                style={{
+                                    width: '100%',
+                                    height: '100%',
+                                    objectFit: 'contain',
+                                    filter: `drop-shadow(0 10px 40px ${teamColor}80)`
+                                }}
+                                onError={(e) => e.target.style.display = 'none'}
+                            />
+                        </div>
+
+                        {/* Large standing number behind car */}
+                        {standings && (
+                            <div style={{
+                                position: 'absolute',
+                                right: '1rem',
+                                top: '50%',
+                                transform: 'translateY(-50%)',
+                                fontSize: '15rem',
+                                fontWeight: '900',
+                                color: 'transparent',
+                                WebkitTextStroke: `4px ${teamColor}`,
+                                lineHeight: 1,
+                                opacity: 0.2,
+                                zIndex: 1
+                            }}>
+                                {standings.position}
+                            </div>
+                        )}
+
                         <div style={{
                             display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'flex-start',
-                            flexWrap: 'wrap',
-                            gap: '2rem'
+                            justifyContent: 'flex-end',
+                            alignItems: 'center',
+                            position: 'relative',
+                            zIndex: 3
                         }}>
-                            <div>
+                            <div style={{ textAlign: 'right' }}>
                                 <h1 style={{
                                     fontSize: '3rem',
                                     marginBottom: '0.5rem'
@@ -115,27 +172,29 @@ const TeamDetail = () => {
                                         {constructor.name}
                                     </span>
                                 </h1>
-                                <p style={{
+                                <div style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'flex-end',
+                                    gap: '0.75rem',
                                     fontSize: '1.5rem',
                                     color: 'var(--text-secondary)',
                                     marginBottom: '1rem'
                                 }}>
-                                    {constructor.nationality}
-                                </p>
-                            </div>
-
-                            {standings && (
-                                <div className={`position-badge ${standings.position === '1' ? 'p1' :
-                                    standings.position === '2' ? 'p2' :
-                                        standings.position === '3' ? 'p3' : ''
-                                    }`} style={{
-                                        width: '80px',
-                                        height: '80px',
-                                        fontSize: '2rem'
-                                    }}>
-                                    {standings.position}
+                                    <span>{constructor.nationality}</span>
+                                    <img
+                                        src={`https://flagcdn.com/w40/${countryCode}.png`}
+                                        srcSet={`https://flagcdn.com/w80/${countryCode}.png 2x`}
+                                        alt={constructor.nationality}
+                                        style={{
+                                            width: '32px',
+                                            height: '24px',
+                                            objectFit: 'cover',
+                                            borderRadius: '4px'
+                                        }}
+                                    />
                                 </div>
-                            )}
+                            </div>
                         </div>
                     </div>
 
@@ -272,7 +331,7 @@ const TeamDetail = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 

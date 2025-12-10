@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useYear } from '../context/YearContext';
-import { getDriverDetails } from '../services/f1Api';
+import { getDriverDetails, getDriverImageFromOpenF1 } from '../services/f1Api';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 const DriverDetail = () => {
@@ -11,6 +11,7 @@ const DriverDetail = () => {
     const { t } = useTranslation();
     const { selectedYear } = useYear();
     const [driverData, setDriverData] = useState(null);
+    const [driverImageUrl, setDriverImageUrl] = useState('');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -20,6 +21,12 @@ const DriverDetail = () => {
                 setLoading(true);
                 const data = await getDriverDetails(driverId, selectedYear);
                 setDriverData(data);
+
+                // Load driver image
+                if (data?.driver) {
+                    const imageUrl = await getDriverImageFromOpenF1(data.driver.code, data.driver.permanentNumber);
+                    setDriverImageUrl(imageUrl);
+                }
             } catch (err) {
                 setError(err.message);
             } finally {
@@ -122,12 +129,57 @@ const DriverDetail = () => {
                             boxShadow: `0 0 20px ${teamColor}`
                         }} />
 
+                        {/* Driver image on right */}
+                        <div style={{
+                            position: 'absolute',
+                            right: '0',
+                            bottom: 0,
+                            width: '300px',
+                            height: '100%',
+                            zIndex: 2,
+                            display: 'flex',
+                            alignItems: 'flex-end'
+                        }}>
+                            <img
+                                src={driverImageUrl}
+                                alt={`${driver.givenName} ${driver.familyName}`}
+                                style={{
+                                    width: '100%',
+                                    height: 'auto',
+                                    maxHeight: '100%',
+                                    objectFit: 'contain',
+                                    objectPosition: 'bottom',
+                                    filter: 'drop-shadow(0 10px 40px rgba(0, 0, 0, 0.5))'
+                                }}
+                                onError={(e) => {
+                                    e.target.src = `https://via.placeholder.com/200x200/1A1A1A/E10600?text=${driver.code || 'F1'}`;
+                                }}
+                            />
+                        </div>
+
+                        {/* Large driver number behind image */}
+                        <div style={{
+                            position: 'absolute',
+                            right: '2rem',
+                            top: '50%',
+                            transform: 'translateY(-50%)',
+                            fontSize: '15rem',
+                            fontWeight: '900',
+                            color: 'transparent',
+                            WebkitTextStroke: `4px ${teamColor}`,
+                            lineHeight: 1,
+                            opacity: 0.2,
+                            zIndex: 1
+                        }}>
+                            {driver.permanentNumber || '0'}
+                        </div>
+
                         <div style={{
                             display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'flex-start',
-                            flexWrap: 'wrap',
-                            gap: '2rem'
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            position: 'relative',
+                            zIndex: 3
                         }}>
                             <div>
                                 <h1 style={{
@@ -136,27 +188,20 @@ const DriverDetail = () => {
                                 }}>
                                     {driver.givenName} <span style={{ color: teamColor }}>{driver.familyName}</span>
                                 </h1>
-                                <p style={{
-                                    fontSize: '1.5rem',
-                                    color: 'var(--text-secondary)',
-                                    marginBottom: '1rem'
-                                }}>
-                                    #{driver.permanentNumber || 'N/A'}
-                                </p>
-                            </div>
-
-                            {standings && (
-                                <div className={`position-badge ${standings.position === '1' ? 'p1' :
-                                    standings.position === '2' ? 'p2' :
-                                        standings.position === '3' ? 'p3' : ''
-                                    }`} style={{
-                                        width: '80px',
-                                        height: '80px',
-                                        fontSize: '2rem'
+                                {standings && (
+                                    <div style={{
+                                        fontSize: '1.5rem',
+                                        color: 'var(--text-secondary)',
+                                        marginBottom: '1rem',
+                                        fontWeight: '600'
                                     }}>
-                                    {standings.position}
-                                </div>
-                            )}
+                                        {standings.position === '1' ? '1st' :
+                                            standings.position === '2' ? '2nd' :
+                                                standings.position === '3' ? '3rd' :
+                                                    `${standings.position}th`} in Championship
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </div>
 

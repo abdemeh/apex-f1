@@ -10,30 +10,105 @@ const f1Api = axios.create({
     },
 });
 
-// Helper function to get driver image URL
-export const getDriverImageUrl = (driver) => {
-    // Use Wikipedia/Wikimedia for driver images
-    const fullName = `${driver.givenName}_${driver.familyName}`.replace(/ /g, '_');
-    // Return a placeholder that can be replaced with actual image logic
-    return `https://via.placeholder.com/150x150/1A1A1A/E10600?text=${driver.code || driver.familyName.substring(0, 3).toUpperCase()}`;
+// Cache for driver images from OpenF1 API
+let driverImagesCache = null;
+let fetchPromise = null;
+
+// Fetch driver images from OpenF1 API
+const fetchDriverImages = async () => {
+    // If already cached, return immediately
+    if (driverImagesCache) {
+        return driverImagesCache;
+    }
+
+    // If already fetching, return the same promise
+    if (fetchPromise) {
+        return fetchPromise;
+    }
+
+    fetchPromise = (async () => {
+        try {
+            const response = await axios.get('https://api.openf1.org/v1/drivers?session_key=latest');
+            const drivers = response.data;
+
+            // Create a map of driver codes to headshot URLs
+            const imageMap = {};
+            drivers.forEach(driver => {
+                if (driver.driver_number && driver.headshot_url) {
+                    // Remove the .transform/1col/image.png part as per user's instruction
+                    const cleanUrl = driver.headshot_url.replace(/\.transform\/.*$/, '');
+                    imageMap[driver.name_acronym] = cleanUrl;
+                    imageMap[driver.driver_number.toString()] = cleanUrl;
+                }
+            });
+
+            driverImagesCache = imageMap;
+            return imageMap;
+        } catch (error) {
+            console.error('Error fetching driver images from OpenF1:', error);
+            return {};
+        } finally {
+            fetchPromise = null;
+        }
+    })();
+
+    return fetchPromise;
 };
 
-// Helper function to get team logo URL
-export const getTeamLogoUrl = (constructorId) => {
-    // Map of team IDs to logo URLs (using placeholder for now)
-    const teamLogos = {
-        'red_bull': 'https://via.placeholder.com/100x100/0600EF/FFFFFF?text=RB',
-        'ferrari': 'https://via.placeholder.com/100x100/DC0000/FFFFFF?text=Ferrari',
-        'mercedes': 'https://via.placeholder.com/100x100/00D2BE/000000?text=Merc',
-        'mclaren': 'https://via.placeholder.com/100x100/FF8700/FFFFFF?text=McLaren',
-        'aston_martin': 'https://via.placeholder.com/100x100/006F62/FFFFFF?text=Aston',
-        'alpine': 'https://via.placeholder.com/100x100/0090FF/FFFFFF?text=Alpine',
-        'williams': 'https://via.placeholder.com/100x100/005AFF/FFFFFF?text=Williams',
-        'rb': 'https://via.placeholder.com/100x100/2B4562/FFFFFF?text=RB',
-        'kick': 'https://via.placeholder.com/100x100/00E701/000000?text=Kick',
-        'haas': 'https://via.placeholder.com/100x100/FFFFFF/000000?text=Haas'
+// Helper function to get driver image URL
+export const getDriverImageUrl = (driver) => {
+    // Return a placeholder initially - the actual image will be loaded via React component
+    return `https://via.placeholder.com/200x200/1A1A1A/E10600?text=${driver.code || driver.familyName.substring(0, 3).toUpperCase()}`;
+};
+
+// New function to get driver image from OpenF1 API
+export const getDriverImageFromOpenF1 = async (driverCode, driverNumber) => {
+    const imageMap = await fetchDriverImages();
+
+    // Try to find by code first, then by number
+    const imageUrl = imageMap[driverCode] || imageMap[driverNumber?.toString()];
+
+    if (imageUrl) {
+        return imageUrl;
+    }
+
+    // For drivers not in OpenF1, use F1's official fallback image
+    return 'https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/';
+};
+
+// Helper function to get team logo/car URL
+export const getTeamLogoUrl = (constructorId, year = '2024') => {
+    // Map constructor IDs to their URL-friendly names
+    const teamNames = {
+        'red_bull': 'red-bull-racing',
+        'ferrari': 'ferrari',
+        'mercedes': 'mercedes',
+        'mclaren': 'mclaren',
+        'aston_martin': 'aston-martin',
+        'alpine': 'alpine',
+        'williams': 'williams',
+        'rb': 'rb',
+        'kick': 'kick-sauber',
+        'sauber': 'kick-sauber',
+        'haas': 'haas-f1-team',
+        'alfa': 'alfa-romeo-f1-team-stake',
+        'alphatauri': 'alphatauri',
+        'toro_rosso': 'scuderia-toro-rosso',
+        'racing_point': 'racing-point',
+        'renault': 'renault',
+        'lotus_f1': 'lotus-f1',
+        'force_india': 'force-india'
     };
-    return teamLogos[constructorId] || 'https://via.placeholder.com/100x100/E10600/FFFFFF?text=F1';
+
+    const teamName = teamNames[constructorId];
+
+    if (teamName) {
+        // Use dynamic year-based URL
+        return `https://media.formula1.com/d_team_car_fallback_image.png/content/dam/fom-website/teams/${year}/${teamName}.png`;
+    }
+
+    // Fallback to generic team car image
+    return 'https://media.formula1.com/d_team_car_fallback_image.png/content/dam/fom-website/teams/';
 };
 
 // Get available seasons (1950 to current year)

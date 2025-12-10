@@ -1,10 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useYear } from '../context/YearContext';
 import { getTeamLogoUrl } from '../services/f1Api';
 
 const TeamCard = ({ constructor, standings }) => {
     const navigate = useNavigate();
     const { t } = useTranslation();
+    const { selectedYear } = useYear();
 
     const handleClick = () => {
         navigate(`/teams/${constructor.constructorId}`);
@@ -25,7 +27,7 @@ const TeamCard = ({ constructor, standings }) => {
     };
 
     const teamColor = teamColors[constructor.constructorId] || 'var(--f1-red)';
-    const teamLogoUrl = getTeamLogoUrl(constructor.constructorId);
+    const teamLogoUrl = getTeamLogoUrl(constructor.constructorId, selectedYear);
 
     // Get country code from nationality for flag SVG
     const getCountryCode = (nationality) => {
@@ -88,64 +90,37 @@ const TeamCard = ({ constructor, standings }) => {
                 boxShadow: `0 0 20px ${teamColor}`
             }} />
 
-            {/* Position badge - top left */}
-            {standings && (
-                <div style={{
-                    position: 'absolute',
-                    top: '1rem',
-                    left: '1rem',
-                    zIndex: 10
-                }}>
-                    <div className={`position-badge ${standings.position === '1' ? 'p1' :
-                        standings.position === '2' ? 'p2' :
-                            standings.position === '3' ? 'p3' : ''
-                        }`} style={{
-                            width: '40px',
-                            height: '40px',
-                            fontSize: '1.2rem',
-                            fontWeight: '900'
-                        }}>
-                        {standings.position}
-                    </div>
-                </div>
-            )}
-
-            {/* Main content area with team logo */}
+            {/* Main content area with team car */}
             <div style={{
                 position: 'relative',
                 flex: 1,
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center',
-                padding: '3rem 1rem 1rem 1rem'
+                justifyContent: 'flex-start',
+                padding: '3rem 0 0 0',
+                overflow: 'hidden'
             }}>
-                {/* Large team logo as background */}
-                <div style={{
-                    position: 'absolute',
-                    width: '100%',
-                    height: '100%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    opacity: 0.15,
-                    zIndex: 1
-                }}>
-                    <img
-                        src={teamLogoUrl}
-                        alt={constructor.name}
-                        style={{
-                            maxWidth: '80%',
-                            maxHeight: '80%',
-                            objectFit: 'contain',
-                            filter: `drop-shadow(0 0 40px ${teamColor})`
-                        }}
-                        onError={(e) => {
-                            e.target.style.display = 'none';
-                        }}
-                    />
-                </div>
+                {/* Large standing number (outlined) on the right */}
+                {standings && (
+                    <div style={{
+                        position: 'absolute',
+                        right: '1rem',
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        fontSize: '12rem',
+                        fontWeight: '900',
+                        color: 'transparent',
+                        WebkitTextStroke: `3px ${teamColor}`,
+                        opacity: 0.4,
+                        lineHeight: 1,
+                        userSelect: 'none',
+                        zIndex: 1
+                    }}>
+                        {standings.position}
+                    </div>
+                )}
 
-                {/* Team logo in center */}
+                {/* Team car image - larger and cropped from left */}
                 <div style={{
                     position: 'relative',
                     zIndex: 2,
@@ -153,19 +128,21 @@ const TeamCard = ({ constructor, standings }) => {
                     height: '180px',
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'center'
+                    justifyContent: 'flex-start',
+                    marginLeft: '-60px'
                 }}>
                     <img
                         src={teamLogoUrl}
                         alt={constructor.name}
                         style={{
-                            maxWidth: '70%',
-                            maxHeight: '100%',
+                            width: '160%',
+                            maxWidth: 'none',
+                            height: 'auto',
                             objectFit: 'contain',
-                            filter: `drop-shadow(0 10px 30px ${teamColor})`
+                            filter: `drop-shadow(0 10px 30px ${teamColor}40)`
                         }}
                         onError={(e) => {
-                            e.target.src = `https://via.placeholder.com/200x100/${teamColor.replace('#', '')}/ffffff?text=${constructor.name}`;
+                            e.target.style.display = 'none';
                         }}
                     />
                 </div>

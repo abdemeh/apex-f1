@@ -100,17 +100,6 @@ const Home = () => {
                                     boxShadow: `0 0 20px ${card.gradient}`
                                 }} />
 
-                                {/* Gradient background overlay */}
-                                <div style={{
-                                    position: 'absolute',
-                                    bottom: 0,
-                                    left: 0,
-                                    right: 0,
-                                    height: '50%',
-                                    background: `linear-gradient(to top, ${card.gradient.match(/#[A-F0-9]{6}/i)?.[0]}15, transparent)`,
-                                    pointerEvents: 'none'
-                                }} />
-
                                 <div style={{
                                     padding: '2rem',
                                     flex: 1,
