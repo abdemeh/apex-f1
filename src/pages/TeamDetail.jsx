@@ -265,7 +265,7 @@ const TeamDetail = () => {
                                         className="btn"
                                         style={{ marginTop: '1.5rem', width: '100%' }}
                                     >
-                                        Wikipedia →
+                                        {t('details.wikipedia')} →
                                     </a>
                                 )}
                             </div>

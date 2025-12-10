@@ -195,10 +195,10 @@ const DriverDetail = () => {
                                         marginBottom: '1rem',
                                         fontWeight: '600'
                                     }}>
-                                        {standings.position === '1' ? '1st' :
+                                        {t(`details.${standings.position === '1' ? '1st' :
                                             standings.position === '2' ? '2nd' :
                                                 standings.position === '3' ? '3rd' :
-                                                    `${standings.position}th`} in Championship
+                                                    standings.position + 'th'}`)} {t('details.inChampionship')}
                                     </div>
                                 )}
                             </div>
@@ -218,7 +218,7 @@ const DriverDetail = () => {
                                 marginBottom: '1.5rem',
                                 color: teamColor
                             }}>
-                                Driver Information
+                                {t('details.driverInformation')}
                             </h3>
 
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -252,7 +252,7 @@ const DriverDetail = () => {
                                     padding: '0.75rem 0',
                                     borderBottom: '1px solid var(--border-color)'
                                 }}>
-                                    <span style={{ color: 'var(--text-muted)' }}>Date of Birth</span>
+                                    <span style={{ color: 'var(--text-muted)' }}>{t('details.dateOfBirth')}</span>
                                     <span style={{ fontWeight: '700' }}>{driver.dateOfBirth || 'N/A'}</span>
                                 </div>
 
@@ -262,7 +262,7 @@ const DriverDetail = () => {
                                     padding: '0.75rem 0',
                                     borderBottom: '1px solid var(--border-color)'
                                 }}>
-                                    <span style={{ color: 'var(--text-muted)' }}>Code</span>
+                                    <span style={{ color: 'var(--text-muted)' }}>{t('details.code')}</span>
                                     <span style={{ fontWeight: '700' }}>{driver.code || 'N/A'}</span>
                                 </div>
 
@@ -274,7 +274,7 @@ const DriverDetail = () => {
                                         className="btn"
                                         style={{ marginTop: '1rem' }}
                                     >
-                                        Wikipedia →
+                                        {t('details.wikipedia')} →
                                     </a>
                                 )}
                             </div>

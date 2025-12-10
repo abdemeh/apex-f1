@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import YearSelector from './YearSelector';
-import f1Logo from '../assets/f1.png';
+import apexLogo from '../assets/apex-f1.png';
 
 const Navbar = () => {
     const { t, i18n } = useTranslation();
@@ -41,8 +41,7 @@ const Navbar = () => {
         <nav className="navbar">
             <div className="navbar-content">
                 <Link to="/" className="navbar-brand">
-                    <img src={f1Logo} alt="F1 Logo" className="navbar-logo" />
-                    <span className="navbar-title">APEX F1</span>
+                    <img src={apexLogo} alt="APEX F1 Logo" className="navbar-logo" />
                 </Link>
 
                 <button

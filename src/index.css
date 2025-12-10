@@ -259,21 +259,27 @@ h3 {
   z-index: 100;
 }
 
-.language-option {
+.language-dropdown button {
+  width: 100%;
   padding: 0.75rem 1rem;
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
   cursor: pointer;
   transition: all 0.2s ease;
   font-weight: 600;
   text-transform: uppercase;
   font-size: 0.85rem;
+  text-align: left;
+  font-family: 'Formula1', sans-serif;
 }
 
-.language-option:hover {
+.language-dropdown button:hover {
   background: var(--bg-card-hover);
   color: var(--f1-red);
 }
 
-.language-option.active {
+.language-dropdown button.active {
   background: var(--f1-red);
   color: var(--text-primary);
 }
@@ -357,7 +363,7 @@ h3 {
   letter-spacing: 1px;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(225, 6, 0, 0.3);
+  box-shadow: 0 4px 12px rgba(225, 6, 0, 0.2);
   text-decoration: none;
   display: inline-block;
   text-align: center;
@@ -365,7 +371,7 @@ h3 {
 
 .btn:hover {
   background: var(--f1-red-dark);
-  box-shadow: var(--glow-strong), 0 6px 20px rgba(225, 6, 0, 0.5);
+  box-shadow: 0 0 15px rgba(225, 6, 0, 0.3), 0 6px 20px rgba(225, 6, 0, 0.3);
   transform: translateY(-2px);
 }
 
@@ -497,29 +503,30 @@ tr:last-child td {
   border-radius: 8px;
   font-weight: 900;
   font-size: 1.2rem;
-  background: var(--bg-dark);
+  background: transparent;
   border: 2px solid var(--border-color);
+  color: var(--text-primary);
 }
 
 .position-badge.p1 {
-  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-  color: #000;
-  border-color: #FFD700;
-  box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+  background: transparent;
+  color: #FFD700;
+  border: 1px solid #FFD700;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
 }
 
 .position-badge.p2 {
-  background: linear-gradient(135deg, #C0C0C0 0%, #A8A8A8 100%);
-  color: #000;
-  border-color: #C0C0C0;
-  box-shadow: 0 0 20px rgba(192, 192, 192, 0.5);
+  background: transparent;
+  color: #C0C0C0;
+  border: 1px solid #C0C0C0;
+  box-shadow: 0 0 10px rgba(192, 192, 192, 0.3);
 }
 
 .position-badge.p3 {
-  background: linear-gradient(135deg, #CD7F32 0%, #B8732D 100%);
-  color: #FFF;
-  border-color: #CD7F32;
-  box-shadow: 0 0 20px rgba(205, 127, 50, 0.5);
+  background: transparent;
+  color: #CD7F32;
+  border: 1px solid #CD7F32;
+  box-shadow: 0 0 10px rgba(205, 127, 50, 0.3);
 }
 
 /* Tabs */
