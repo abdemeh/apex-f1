@@ -42,27 +42,88 @@ This is a modern, responsive Single Page Application (SPA) built to visualize Fo
 * **i18next**: For handling translations. Because F1 is a global sport.
 * **CSS Modules / Vanilla CSS**: Custom styling with a focus on a dark, neon-accented aesthetic (Glassmorphism).
 
+# Installation & Setup
+
+Want to run this locally? Here is how you do it:
+
+1. **Clone the repo**:
+
+    ```bash
+    git clone https://github.com/abdemeh/apex-f1.git
+    cd apex-f1
+    ```
+
+2. **Install dependencies**:
+
+    ```bash
+    npm install
+    ```
+
+3. **Start the engine** (Run dev server):
+
+    ```bash
+    npm run dev
+    ```
+
+4. Open your browser and go to `http://localhost:5173/apex-f1/`.
+
 # API & Data Architecture
 
 This is where the magic happens. I didn't just hardcode the data; I fetch it live from reliable sources.
 
 ### 1. Ergast API (via Jolpica)
 
-The **Ergast Developer API** is the backbone of this app. I use it to fetch:
+The **Ergast Developer API** is the backbone of this app. I use it to fetch race schedules, standings, and driver details.
 
-* **Season Data**: Race schedules and results.
-* **Standings**: Who is leading the championship.
-* **Details**: Specific data for drivers, teams, and circuits.
+* **Where**: `src/services/f1Api.js`
+* **How**: I created an `axios` instance to handle requests.
 
-*Implementation Details*:
-I created a dedicated service `src/services/f1Api.js` using `axios`. It handles all the HTTP requests to `https://api.jolpi.ca/ergast/f1`.
+```javascript
+// src/services/f1Api.js
+const BASE_URL = 'https://api.jolpi.ca/ergast/f1';
+
+const f1Api = axios.create({
+    baseURL: BASE_URL,
+    headers: {
+        'Content-Type': 'application/json',
+    },
+});
+
+// Example: Fetching Drivers
+export const getDrivers = async (year = '2024') => {
+    const response = await f1Api.get(`/${year}/drivers.json`);
+    return response.data.MRData.DriverTable.Drivers;
+};
+```
 
 ### 2. OpenF1 API
 
-The Ergast API is great for numbers, but it lacks visuals. That's where **OpenF1** comes in.
+The Ergast API is great for numbers, but it lacks visuals. That's where **OpenF1** comes in. I use this specifically to get high-quality driver headshots.
 
-* **Driver Images**: I use this API to fetch high-quality headshots of the drivers.
-* **Caching Strategy**: To avoid hitting the API rate limits and to speed up the app, I implemented a custom caching mechanism in `f1Api.js`. Once we fetch the driver images, we store them in memory (`driverImagesCache`). Subsequent requests use the cache, making the app feel instant.
+* **Where**: `src/services/f1Api.js`
+* **How**: I implemented a caching mechanism to avoid rate limits.
+
+```javascript
+// src/services/f1Api.js
+// Cache for driver images
+let driverImagesCache = null;
+
+const fetchDriverImages = async () => {
+    // Return cached images if available
+    if (driverImagesCache) return driverImagesCache;
+
+    const response = await axios.get('https://api.openf1.org/v1/drivers?session_key=latest');
+    
+    // Map driver acronyms to image URLs
+    const imageMap = {};
+    response.data.forEach(driver => {
+        imageMap[driver.name_acronym] = driver.headshot_url;
+    });
+
+    driverImagesCache = imageMap;
+    return imageMap;
+};
+```
 
 ### 3. Fallbacks
 
