@@ -12,7 +12,7 @@ import Circuits from './pages/Circuits';
 
 function App() {
   return (
-    <Router>
+    <Router basename={import.meta.env.BASE_URL}>
       <YearProvider>
         <div className="app">
           <Navbar />
