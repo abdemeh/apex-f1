@@ -8,7 +8,7 @@
 
 # Live Preview
 
-**[👉 Click here to see it live!](https://abdemeh.github.io/apex-f1/)**
+**[Click here to see it live!](https://abdemeh.github.io/apex-f1/)**
 
 # Introduction & Inspiration
 
